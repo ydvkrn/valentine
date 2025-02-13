@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propose Day</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      color: white;
+      overflow: hidden;
+      background: url('https://i.postimg.cc/RhQ7Ry6K/Background-Love-GIFs-Find-Share-on-GIPHY.gif') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 2.8em;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    #animationContainer img {
+      width: 300px;
+      height: 300px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+      min-width: 120px;
+    }
+    .no-button {
+      background-color: #ff4b5c;
+      color: white;
+    }
+    .yes-button {
+      background-color: #28a745;
+      color: white;
+    }
+    .no-button:hover {
+      background-color: #ff6b7c;
+    }
+    .yes-button:hover {
+      background-color: #32cd32;
+    }
+    .no-button.clicked {
+      background-color: #000000; /* Change the button to black */
+    }
+    #message {
+      display: none;
+      font-size: 2em;
+      margin-top: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    #dynamicMessage {
+      display: none;
+      font-size: 2em;
+      margin-top: 20px;
+      color: black;
+      text-shadow: none;
+    }
+    #loveMessage {
+      display: none;
+      font-size: 2em;
+      margin-top: 20px;
+      font-family: 'Cursive', sans-serif;
+      color: black;
+      font-style: italic;
+    }
+
+    /* Added CSS for the bottom left text */
+    #creator {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      font-size: 14px;
+      color: white;
+      font-style: italic;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <h1 id="mainText">Will You Be My Valentine?</h1>
+  <div id="animationContainer">
+    <img id="defaultGif" src="https://i.pinimg.com/originals/54/58/89/545889a353c28e60ac68950c04cccacd.gif" alt="Cute Cat"> <!-- Default GIF -->
+  </div>
+  <div class="button-container">
+    <button class="no-button" id="noButton" onclick="moveNoButton()">No</button>
+    <button class="yes-button" id="yesButton" onclick="playYesAnimation()">Yes</button>
+  </div>
+  <div id="message">I Love You So Much! 🌹❤️</div>
+  <div id="dynamicMessage"></div> <!-- Will show changing messages -->
+  <div id="loveMessage">I Love You So Much!</div> <!-- Text will appear when "Yes" is clicked -->
+  <audio id="backgroundMusic" loop>
+    <source src="https://aac.saavncdn.com/707/88c026b9075702bd19446e7ba8be3cb5_320.mp4" type="audio/mp3">
+  </audio>
+  <audio id="yesAudio" style="display: none;">
+    <source src="https://aac.saavncdn.com/540/3e65a4625263fd914b1ab32e9581b771_320.mp4" type="audio/mp3"> <!-- Replace YOUR_AUDIO_FILE.mp3 with your audio file -->
+  </audio>
+  <script>
+    window.onload = function() {
+      const music = document.getElementById('backgroundMusic');
+      music.play();
+    };
+
+    // Old GIFs for "No" button action
+    let gifs = [
+      'https://media.tenor.com/TUY825_KAS4AAAAj/oggy-scared.gif',
+      'https://i.pinimg.com/originals/c1/16/6a/c1166a948649d267a8705fc3e2e34e55.gif',
+      'https://img1.picmix.com/output/stamp/normal/9/0/7/5/2025709_f12a7.gif',
+      'https://media.tenor.com/Jz8sug3aprIAAAAj/oggy-happy.gif'
+    ];
+    let gifIndex = 0;
+
+    // New set of 4 GIFs for "Yes" button action
+    let newGifs = [
+      'https://i.pinimg.com/originals/aa/d7/d0/aad7d08ad0ce5b8e6dc66f886fa9b45c.gif',
+      'https://i.pinimg.com/originals/eb/62/b8/eb62b84a1be16f9d09580881eb4905ee.gif',
+      'https://i.pinimg.com/originals/54/58/89/545889a353c28e60ac68950c04cccacd.gif',
+      'https://i.pinimg.com/originals/47/18/c3/4718c37986ce605122673338830d19c9.gif'
+    ];
+    let gifInterval;
+
+    // Custom background image for "No" button click
+    let noButtonBackground = 'https://i.postimg.cc/Zn2LNs9d/20250213-193645.jpg'; // Replace with your custom image link
+
+    // Array of messages to show on clicking "No"
+    let noMessages = [
+      "Please",
+      "Think Once",
+      "Give Me One Chance",
+      "Plz Plz Plz🤞🏻"
+    ];
+    let noMessageIndex = 0;
+
+    function moveNoButton() {
+      const noButton = document.getElementById('noButton');
+      const yesButton = document.getElementById('yesButton');
+      const animationContainer = document.getElementById('animationContainer');
+      const mainText = document.getElementById('mainText');
+      const dynamicMessage = document.getElementById('dynamicMessage');
+      let randomX, randomY;
+      do {
+        randomX = Math.floor(Math.random() * (window.innerWidth - 150));
+        randomY = Math.floor(Math.random() * (window.innerHeight - 100));
+      } while (
+        Math.abs(randomX - yesButton.offsetLeft) < 200 &&
+        Math.abs(randomY - yesButton.offsetTop) < 100
+      );
+      noButton.style.position = 'absolute';
+      noButton.style.left = `${randomX}px`;
+      noButton.style.top = `${randomY}px`;
+
+      // Change the GIF each time the No button is clicked
+      animationContainer.innerHTML = `<img src="${gifs[gifIndex]}" alt="Sad Cat">`;
+      
+      // Change the background to the custom image when "No" is clicked
+      document.body.style.background = `url(${noButtonBackground}) no-repeat center center fixed`;
+      document.body.style.backgroundSize = 'cover'; // Ensures the background covers the whole screen
+      
+      // Show the dynamic message
+      dynamicMessage.style.display = 'block';
+      dynamicMessage.textContent = noMessages[noMessageIndex];  // Display message from array
+
+      // Update the "No" button text and style
+      document.getElementById('message').textContent = "Please! Think Once!";
+      noButton.classList.add('clicked'); // Black color on "No" button
+
+      // Increment noMessageIndex and loop back to 0 after the 4th message
+      noMessageIndex = (noMessageIndex + 1) % noMessages.length;
+
+      // Increment gifIndex and loop back to 0 after the last GIF
+      gifIndex = (gifIndex + 1) % gifs.length;
+    }
+
+    function playYesAnimation() {
+      const yesButton = document.getElementById('yesButton');
+      const noButton = document.getElementById('noButton');
+      const animationContainer = document.getElementById('animationContainer');
+      const music = document.getElementById('backgroundMusic');
+      const mainText = document.getElementById('mainText');
+      const yesAudio = document.getElementById('yesAudio');
+      const dynamicMessage = document.getElementById('dynamicMessage');
+      const loveMessage = document.getElementById('loveMessage');
+
+      // Pause the background music
+      music.pause();
+      music.currentTime = 0;
+      // Play the new audio when "Yes" is clicked
+      yesAudio.play();
+      // Remove the "Will You Be My Valentine?" text
+      mainText.style.display = 'none';
+      // Remove the Yes and No buttons
+      yesButton.style.display = 'none';
+      noButton.style.display = 'none';
+      // Hide the changing messages
+      dynamicMessage.style.display = 'none';
+      // Set the original background (previous GIF background)
+      document.body.style.background = `url('https://i.postimg.cc/RhQ7Ry6K/Background-Love-GIFs-Find-Share-on-GIPHY.gif') no-repeat center center fixed`;
+      document.body.style.backgroundSize = 'cover'; // Ensure it covers the whole screen
+      // Show the love message
+      loveMessage.style.display = 'block';
+
+      // Start showing the new 4 different GIFs immediately after "Yes" is clicked
+      animationContainer.innerHTML = `<img src="${newGifs[gifIndex]}" alt="Changing GIF">`;
+      gifIndex = (gifIndex + 1) % newGifs.length;
+
+      // Start the interval for new GIFs
+      gifInterval = setInterval(function() {
+        animationContainer.innerHTML = `<img src="${newGifs[gifIndex]}" alt="Changing GIF">`;
+        // Increment gifIndex and loop back to 0 after the 4th GIF
+        gifIndex = (gifIndex + 1) % newGifs.length;
+      }, 2000); // Change every 2 seconds
+    }
+  </script>
+
+  <!-- Added Text: Created By - MSM ❤️ -->
+  <div id="creator">Created By - MSM ❤️</div>
+
+</body>
+</html>
