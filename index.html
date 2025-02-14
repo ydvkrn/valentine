@@ -230,10 +230,31 @@
   <!-- Added Text: Created By - MSM ❤️ -->
   <div id="creator">
   Created By - MSM ❤️  
-  <a href="https://www.instagram.com/i11msm/" target="_blank" style="text-decoration: none; color: white;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1200px-Instagram_logo_2022.svg.png" alt="Instagram" style="width: 16px; height: 16px; vertical-align: middle; margin-left: 5px;">
+  <a href="https://instagram.com/i11msm" target="_blank" style="text-decoration: none; color: white;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width: 16px; height: 16px; vertical-align: middle; margin-left: 5px;">
   </a>
+  <span id="liveWatching" style="margin-left: 20px;">
+    <img src="https://i.postimg.cc/L4bGH85h/eye.png" alt="Eye Icon" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 5px;">
+    <span id="viewCount">500</span>
+  </span>
 </div>
+
+<script>
+  function getRandomViews(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function updateViewCount() {
+    const viewCount = document.getElementById('viewCount');
+    viewCount.textContent = getRandomViews(500, 1200);
+  }
+
+  // Update every 30 Seconds (30,000 milliseconds)
+  setInterval(updateViewCount, 30000);
+
+  // Initial update on page load
+  updateViewCount();
+</script>
 
 </body>
 </html>
