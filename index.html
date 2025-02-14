@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #282c34;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Oswald', sans-serif;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            display: none;
+        }
+        .content img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
+        .content h1, .content h2 {
+            margin-top: 20px;
+            font-size: 24px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        #nextButton, #checkButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff6600;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #nextButton:hover, #checkButton:hover {
+            background-color: #ff8533;
+        }
+        /* Full-page background image for third page */
+        #thirdPage {
+            background-image: url('https://file.pngbackground.com/uploads/preview/banner-material-hd-background-download-for-new-editing-116636052747ruwcqvyrn.jpg');
+            background-size: cover;  /* Ensures full-page background */
+            background-position: center;  /* Center the background */
+            background-repeat: no-repeat;
+            width: 100%;  /* Full width */
+            height: 100vh;  /* Full height */
+            display: none;  /* Initially hidden */
+            flex-direction: column;  /* Stack content vertically */
+            justify-content: center;  /* Vertically center content */
+            align-items: center;  /* Horizontally center content */
+            position: relative;
+        }
+        #thirdPage .content {
+            text-align: center;
+            display: block;
+        }
+        #thirdPage img {
+            max-width: 500px;
+            height: auto;
+        }
+        #lyrics {
+            margin-top: 20px;
+            font-size: 20px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: bold;
+            color: #ff6600;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        #credentials {
+            position: fixed;  /* Fix position to the bottom */
+            bottom: 0;
+            left: 0;
+            width: 100%;  /* Full width */
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-family: 'Oswald', sans-serif;
+            z-index: 10;  /* Ensure it's above the background image */
+        }
+        #credentials img {
+            width: 20px;
+            margin-left: 10px;
+        }
+        #myInspirationSection {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #myInspirationSection h1 {
+            font-size: 28px;
+            margin-right: 10px; /* Space between text and button */
+        }
+        #myInspirationSection button {
+            margin-left: 10px;
+        }
+    </style>
+    <!-- Oswald font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- First Page -->
+    <div class="container" id="firstPage">
+        <div class="content">
+            <img src="https://i.giphy.com/VdPyH0XaUihd4pzeCe.webp" alt="First GIF">
+            <h1>😎<br>मैं आप सभी का बहुत आभारी हूँ कि आपने मेरे काम को ज्यादा से ज्यादा शेयर किया, अब तक इसे 12.7k लोगों ने देखा है।</h1>
+            <h2>- - -</h2>
+            <button id="nextButton">Next</button>
+        </div>
+    </div>
+
+    <!-- Second Page with My Inspiration Text and Check Button aligned side by side -->
+    <div class="container" id="secondPage">
+        <div id="myInspirationSection">
+            <h1>My Inspiration</h1>
+            <button id="checkButton">Check</button>
+        </div>
+        <div class="content">
+            <img src="https://i.giphy.com/XE6W9DmfR8MdVZf2S8.webp" alt="Second GIF">
+            <h1>Listen Music For Mood Fresh!</h1>
+        </div>
+    </div>
+
+    <!-- Credentials Section (Hidden initially) -->
+    <div id="credentials">
+        Any Queries or Business? Contact on Instagram
+        <a href="https://www.instagram.com/i11msm" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Instagram Logo">
+        </a>
+    </div>
+
+    <!-- Audio for Second Page (hidden initially) -->
+    <audio id="audio" preload="auto">
+        <source src="https://aac.saavncdn.com/310/af09d368a5dbb8063d06e9d94d0e3e72320.mp4" type="audio/mp4">
+        <source src="https://aac.saavncdn.com/426/dc6cd4c44e69c8529f2656e70e6e29fd_320.mp4" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Third Page (Full-page background image) -->
+    <div id="thirdPage">
+        <div class="content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Ranbir_Kapoor_promoting_Brahmastra.jpg" alt="Your Image">
+            <!-- Lyrics synced text section -->
+            <div id="lyrics">
+                <!-- Lyrics will change dynamically -->
+                <p id="lyricText">Loading lyrics...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third Audio -->
+    <audio id="thirdAudio" preload="auto">
+        <source src="https://aac.saavncdn.com/897/c98601520db62bbf95ac5aa2d060323e_320.mp4" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Initially show the first page
+        document.getElementById("firstPage").style.display = "block";
+
+        // Function to move to the second page and play audio
+        document.getElementById("nextButton").onclick = function() {
+            // Hide the first page
+            document.getElementById("firstPage").style.display = "none";
+
+            // Show the second page
+            document.getElementById("secondPage").style.display = "block";
+
+            // Show the credentials section
+            document.getElementById("credentials").style.display = "block";
+
+            // Play the second page audio (audio should be played here)
+            var audio = document.getElementById("audio");
+            audio.play();  // Play the audio for second page when the next button is clicked
+        };
+
+        // Show the third page and play third audio when "Check" button is clicked
+        document.getElementById("checkButton").onclick = function() {
+            // Stop the second audio
+            var audio = document.getElementById("audio");
+            audio.pause();
+            audio.currentTime = 0; // Reset the audio
+
+            // Hide the second page
+            document.getElementById("secondPage").style.display = "none";
+
+            // Show the third page
+            document.getElementById("thirdPage").style.display = "flex"; // flex to center the content
+
+            // Show the credentials section in the third page as well
+            document.getElementById("credentials").style.display = "block";
+
+            // Play the third audio
+            var thirdAudio = document.getElementById("thirdAudio");
+            thirdAudio.play();  // Play the third audio when the check button is clicked
+
+            // Sync lyrics with the song's time
+            thirdAudio.ontimeupdate = function() {
+                var currentTime = thirdAudio.currentTime;
+                var lyricText = '';
+
+                // Display lyrics based on current time of the song
+                if (currentTime >= 0 && currentTime < 20) {
+                    lyricText = "🎶🎵Music🎵🎶";
+                } else if (currentTime >= 20 && currentTime < 26) {
+                    lyricText = "मेरा दर्पण अखियाँ तेरी";
+                } else if (currentTime >= 26 && currentTime < 33) {
+                    lyricText = "तुझ को तरसें रतियाँ मेरी";
+                } else if (currentTime >= 33 && currentTime < 39) {
+                    lyricText = "जीना मुझ को रास आने लगा";
+                } else if (currentTime >= 39 && currentTime < 46) {
+                    lyricText = "जब से चहकीं बतियाँ तेरी";
+                }
+
+
+                document.getElementById("lyricText").textContent = lyricText;
+            };
+        };
+    </script>
+</body>
+</html>
